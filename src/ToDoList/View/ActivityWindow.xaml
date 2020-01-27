@@ -1,0 +1,156 @@
+﻿<Window x:Class="ToDoList.ActivityWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d"
+        Title="TODOList" 
+        
+        Height="463" 
+        Width="800"
+        Background="White"
+        ResizeMode="NoResize"
+        >
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="100"></ColumnDefinition>
+            <ColumnDefinition Width="100"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Background="White" 
+                    Grid.Column="0"
+                    Grid.Row="0"
+                    Grid.ColumnSpan="6"
+                    Orientation="Horizontal" 
+                    Height="35" 
+                    Margin="10,0"
+                    VerticalAlignment="Top">
+            <Button BorderThickness="1" 
+                    Name ="btnAdd" 
+                    Click="Button_Click_Add" 
+                    Height="35" Width="43" 
+                    Background="White">
+                <Image Source="/images/add.png" 
+                       Height="25" Width="35"/>
+            </Button>
+            <Button BorderThickness="1"  
+                    Name="btnRemove" 
+                    IsEnabled="False" 
+                    Click="Button_Click_RemoveActivity" 
+                    Height="35" Width="43" 
+                    Background="White" 
+                    >
+                <Image Source="/images/remove2.png" 
+                       Height="35" Width="37"/>
+            </Button>
+            <Button BorderThickness="1"
+                    Name="btnUp" 
+                    Click="Button_Click_Up" 
+                    Height="35" Width="43" 
+                    Background="White"
+                    >
+                <Image Source="/images/arrowUp.png" 
+                       Height="30" Width="35"/>
+            </Button>
+            <Button BorderThickness="1"  
+                    Name="btnDown" 
+                    Click="Button_Click_Down" 
+                    Height="35" Width="43" 
+                    Background="White" 
+                    >
+                <Image Source="/images/arrowDown.png" 
+                   Height="30" Width="35">
+                </Image>
+            </Button>
+        </StackPanel>
+
+        <DataGrid Name="DG1" 
+                  Grid.ColumnSpan="6"
+                  Grid.RowSpan="2"
+                  ItemsSource="{Binding DirectoryCollection}"
+                  HorizontalGridLinesBrush="LightGray"
+                  VerticalGridLinesBrush="LightGray" 
+                  SelectionMode="Extended"
+                  GridLinesVisibility="All"  
+                  CanUserAddRows="False" 
+                  AutoGenerateColumns="False" 
+                  SelectedItem ="{Binding SelectedValue}" 
+                  Margin="10,35,10,10" 
+                  SelectionChanged="dg_SelectionChanged">
+            <DataGrid.Resources>
+                <Style TargetType="DataGridCell">
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Foreground" Value="Black" />
+                            <Setter Property="Background" Value="LightSkyBlue"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+                <x:Array x:Key="DataGridItems" Type="sys:String">
+                    <sys:String>Simple string</sys:String>
+                    <sys:String>Activity collection</sys:String>
+                    <sys:String>Detailed plan</sys:String>
+                </x:Array>
+            </DataGrid.Resources>
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Activity" 
+                                    Width="*" 
+                                    Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTemplateColumn Header="Type" Width="190" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox  ItemsSource="{StaticResource DataGridItems}" 
+                                       SelectedItem="{Binding Type, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="133">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Click="Button_Click_NoteList"  
+                                    Visibility="{Binding Path=HasNoteList, Converter={StaticResource BooleanToVisibilityConverter}}" 
+                                    >Notes
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="FontWeight"  Value="Bold" />
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+        </DataGrid>
+        <Button x:Name="btnOk" 
+                Content="OK" 
+                Grid.Column="4"
+                Grid.Row="3"
+                HorizontalAlignment="Right"  
+                VerticalAlignment="Top" 
+                Width="75" 
+                Click="BtnOk_Click" 
+                />
+        <Button x:Name="btnCancel" 
+                Content="Отмена" 
+                Grid.Column="5"
+                Grid.Row="3"
+                HorizontalAlignment="Right"  
+                VerticalAlignment="Top" 
+                Width="75" 
+                Margin="0,0,10,0"
+                Click="BtnCancel_Click"/>
+    </Grid>
+</Window>
