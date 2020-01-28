@@ -3,13 +3,25 @@ using ToDoList.Models;
 
 namespace ToDoList
 {
-    class DataContext :DbContext
+    class DataContext : DbContext
     {
-
         const string connection = "DefaultConnection";
-        public DataContext() : base(connection)
+
+        private static DataContext dataContext;
+
+        private DataContext() : base(connection)
         {
         }
+
+        public static DataContext GetDataContext()
+        {
+            if (dataContext == null)
+            {
+                dataContext = new DataContext();
+            }
+            return dataContext;
+        }
+
         public DbSet<Activity> Activities { get; set; }
 
         public DbSet<Note> Notes { get; set; }
