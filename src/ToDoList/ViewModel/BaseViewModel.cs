@@ -12,7 +12,7 @@ namespace ToDoList.ViewModel
 
         public BaseViewModel()
         {
-            db = DataContext.GetDataContext();
+            db = new DataContext();
             DirectoryCollection = new ObservableCollection<T>();
         }
 
