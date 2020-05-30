@@ -5,6 +5,9 @@ using ToDoList.ViewModel;
 
 namespace ToDoList
 {
+    /// <summary>
+    /// This class defines note view model.
+    /// </summary>
     class NoteViewModel : BaseViewModel<Note>
     {
         private int activityId;
@@ -18,16 +21,19 @@ namespace ToDoList
             DirectoryCollection = db.Notes.Local;
         }
 
+        ///<inheritdoc/>
         public override void AddItem(string phrase)
         {
             DirectoryCollection.Add(new Note { ActivityId = activityId, Phrase = phrase });
         }
 
+        ///<inheritdoc/>
         public override void RemoveItem()
         {
             DirectoryCollection.Remove(SelectedValue);
         }
 
+        ///<inheritdoc/>
         public override void ToUp()
         {
             var index = base.GetIndex();
@@ -35,6 +41,7 @@ namespace ToDoList
             ShuffleNotes(index, index - 1, previousActivity);
         }
 
+        ///<inheritdoc/>
         public override void ToDown()
         {
             var index = base.GetIndex();
@@ -42,6 +49,9 @@ namespace ToDoList
             ShuffleNotes(index, index + 1, nextParameter);
         }
 
+        /// <summary>
+        /// Replaces one record with another
+        /// </summary>
         private void ShuffleNotes(int selectedIndex, int changedIndex, Note note)
         {
             DirectoryCollection[changedIndex].Phrase = DirectoryCollection[selectedIndex].Phrase;

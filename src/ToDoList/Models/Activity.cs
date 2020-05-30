@@ -5,11 +5,18 @@ using System.Runtime.CompilerServices;
 
 namespace ToDoList.Models
 {
+    /// <summary>
+    /// This class defines Activity model.
+    /// </summary>
     public class Activity : INotifyPropertyChanged
     {
         public int Id { get; set; }
 
         private string name;
+
+        /// <summary>
+        /// Gets or sets activity name.
+        /// </summary>
         public string Name
         {
             get { return name; }
@@ -23,6 +30,9 @@ namespace ToDoList.Models
 
         private string type;
 
+        /// <summary>
+        /// Gets or sets activity type.
+        /// </summary>
         public string Type
         {
             get { return type; }
@@ -37,6 +47,9 @@ namespace ToDoList.Models
 
         private bool hasNoteList;
 
+        /// <summary>
+        /// Identifies whether activity has note list
+        /// </summary>
         [NotMapped]
         public bool HasNoteList
         {
@@ -47,6 +60,9 @@ namespace ToDoList.Models
             set { hasNoteList = value; }
         }
 
+        /// <summary>
+        /// Gets or sets a collection of notes.
+        /// </summary>
         public ICollection<Note> Notes
         {
             get;
@@ -55,6 +71,8 @@ namespace ToDoList.Models
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        // Create the OnPropertyChanged method to raise the event
+        // The calling member's name will be used as the parameter.
         public void OnPropertyChanged([CallerMemberName]string propertyName = "")
         {
             if (PropertyChanged != null)
