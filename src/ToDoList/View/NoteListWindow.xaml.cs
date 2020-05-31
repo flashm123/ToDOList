@@ -12,6 +12,10 @@ namespace ToDoList
     public partial class NoteListWindow : Window
     {
         BaseViewModel<Note> noteViewModel;
+
+        /// <summary>
+        /// Initializes note window components.
+        /// </summary>
         public NoteListWindow(int valueId)
         {
             InitializeComponent();
@@ -19,6 +23,9 @@ namespace ToDoList
             base.DataContext = noteViewModel;
         }
 
+        /// <summary>
+        /// Add new note.
+        /// </summary>
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
             var inputBox = new InputBox();
@@ -30,17 +37,24 @@ namespace ToDoList
             }
         }
 
+        ///<inheritdoc/>
         protected override void OnClosing(CancelEventArgs e)
         {
             noteViewModel.SaveChanges();
             base.OnClosing(e);
         }
 
+        /// <summary>
+        /// Remove note.
+        /// </summary>
         private void btnRemove_Click(object sender, RoutedEventArgs e)
         {
             noteViewModel.RemoveItem();
         }
 
+        /// <summary>
+        /// Change note.
+        /// </summary>
         private void btnChnge_Click(object sender, RoutedEventArgs e)
         {
             var inputBox = new InputBox(noteViewModel.SelectedValue.Phrase);
@@ -50,27 +64,42 @@ namespace ToDoList
             noteViewModel.SelectedValue.Phrase = inputBox.Phrase;
         }
 
+        /// <summary>
+        /// Move note up.
+        /// </summary>
         private void btnUp_Click(object sender, RoutedEventArgs e)
         {
             noteViewModel.ToUp();
         }
 
+        /// <summary>
+        /// Move note down.
+        /// </summary>
         private void btnDown_Click(object sender, RoutedEventArgs e)
         {
             noteViewModel.ToDown();
         }
 
+        /// <summary>
+        /// Save changes.
+        /// </summary>
         private void btnOk_Click(object sender, RoutedEventArgs e)
         {
             noteViewModel.SaveChanges();
             Close();
         }
 
+        /// <summary>
+        /// Close window.
+        /// </summary>
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
+        /// <summary>
+        /// Handle changes in list view.
+        /// </summary>
         private void lstViewRow_SelectionChanged(object sender, SelectionChangedEventArgs args)
         {
             var listView = (ListView)sender;
